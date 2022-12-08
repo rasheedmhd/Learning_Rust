@@ -1,0 +1,20 @@
+
+mach_test:	file format mach-o arm64
+
+Disassembly of section __DATA,__data:
+
+0000000100044000 <__ZN3std9panicking9HOOK_LOCK17h380dae24db4db9e1E>:
+100044000: b4 b3 a8 2d 	stp	s20, s12, [x29, #-188]!
+		...
+
+00000001000440d8 <__MergedGlobals>:
+1000440d8: 01 01 00 00 	udf	#257
+1000440dc: 00 00 00 00 	udf	#0
+1000440e0: 01 00 00 00 	udf	#1
+1000440e4: 00 00 00 00 	udf	#0
+1000440e8: 01 00 00 00 	udf	#1
+1000440ec: 00 00 00 00 	udf	#0
+1000440f0: a7 ab aa 32 	<unknown>
+		...
+100044130: b4 b3 a8 2d 	stp	s20, s12, [x29, #-188]!
+		...

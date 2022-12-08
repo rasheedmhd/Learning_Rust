@@ -50,7 +50,7 @@ impl Rectangle {
         Self { // self == Rectangle
             width: size,
             height: size,
-        }
+        } 
     }
 }
 
