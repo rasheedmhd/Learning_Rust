@@ -63,8 +63,8 @@ fn main() {
         // read the contents of username_file into username variable
         // this could fail so we need match to handle the returned Result
         match username_file.read_to_string(&mut username) {
-            Ok(_) => Ok(username), // returns username if we successful copied contents to username variable
-            Err(e) => Err(e), // rturn an error to the calling code if operation failed
+            Ok(_) => Ok(username), // returns username if we successfully copied contents to username variable
+            Err(e) => Err(e), // return an error to the calling code if operation failed
         }
     }
 

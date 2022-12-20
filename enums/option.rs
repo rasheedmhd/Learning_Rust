@@ -1,4 +1,4 @@
-pub const fn as_ref(&self) -> Option<&T>
+pub const fn as_ref(&self) -> Option<&T>;
 
 fn main() {
     let text: Option<String> = Some("Hello, world!".to_string());

@@ -34,8 +34,8 @@ fn main() {
 
     // rust behaves differently with the above methods
     // 1. if we try accesing an out of scope index, the program will panic
-    // 2. returns an Option type, it we access an out of scope index in returns a None
-    // when using 2, we can define code to Some(T) and None
+    // 2. returns an Option type, if we access an out of scope index it returns a None
+    // when using the get() method, we can define code to Some(T) and None
 
     let v = vec![1,2,3,4,5];
 
@@ -51,7 +51,7 @@ fn main() {
         None => println!("There is no third element."),
     }
 
-    // this won't because of the way vectors are stored in memory
+    // this won't work because of the way vectors are stored in memory
     // if there is no space to store the new added value, rust will
     // have to allocate a new memory and copy all the vector
     // essentially leaving the reference pointing to
