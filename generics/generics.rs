@@ -1,3 +1,9 @@
+// THE RUST PROGRAMMING LANGUAGE BOOK
+// CHAPTER 10 - GENERIC TYPES, TRAITS AND LIFETIMES
+
+// === 10.1 - GENERIC DATA TYPES
+
+
 // MONOMORPHIZATION ->  rust turns generic code into specific code during compilation
 // by filling in generic types with concrete types
 // this ensures that we don't have PERFORMANCE downgrades when using generics
