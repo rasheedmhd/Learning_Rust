@@ -1,0 +1,3 @@
+// Quick Question, if the rust Rust compiler needs lifetime annotations to tell and compile our
+// code safely? how is it able to know that our code needs lifetimes and in the first place?
+// I guess we need a deep dive to understand this.
