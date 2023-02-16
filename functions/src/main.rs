@@ -15,7 +15,7 @@ fn another_function() {
     println!("Another Function!");
 }
 
- a function that takes in a parameter
+//a function that takes in a parameter
 fn parametised_function(x: i32) {
     println!("The argument passed as x is: {x}");
 }

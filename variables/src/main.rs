@@ -8,12 +8,12 @@ fn main() {
 
 //CONSTANTS
 //const VALUE_OF_PI: u32 = 3.14;
-// 1. are immutable datatypes
+// 1. are immutable data types
 // 2. cannot be made mutable with the 'mut' keyword
 // 3. convention is to WRITE_IN_CAPS_WITH_UNDERSCORES
 // 4. start with the 'const' keyword
 // 5. must be type annotated with ':'
-// 6. must be binded before runtime
+// 6. must be bounded before runtime
 // 7. binding value can be an expression like 60*60*3
 
 
@@ -23,19 +23,19 @@ fn main() {
     let x = x +1;
     {
         let x = x * 2;
-        println!("The value of x in the inner scoper is: {x}");
+        println!("The value of x in the inner scope is: {x}");
     }
     println!("The value of x is: {x}");
 }
 
 // shadowing is used to change a variable's type
 // shadowing is different from making a variable mutable
-// in shadowing you use the 'let' keywordbut in mutating,
+// in shadowing you use the 'let' keyword but in mutating,
 // you just rebind the variable name to a new value
 // 'like x = 8;' instead of 'let x = 8;'
 
-// DATATYPES
-// rust has two types of datatypes
+// DATA TYPES
+// rust has two types of data types
 // 1. scalar => integers, booleans, floating-point numbers and characters
 // 2. compound
 // INTEGERS default to i32
@@ -70,7 +70,7 @@ fn main() {
     println!("c: {c}, heart_eyed_cat: {heart_eyed_cat}");
 }
 
-// COMPOUND DATATYPES => combines several different datatypes into 1.
+// COMPOUND DATA TYPES => combines several different data types into 1.
 // rust has 2 types: tuples and arrays
 
 // TUPLES => container that holds distinct values of distinct types
@@ -88,7 +88,10 @@ fn main() {
 
 // ARRAYS => supports type annotation
 // are fixed in size
-// uses square brackets
+// unlike in tuples, elements in a tuple must all be of the same type
+// arrays are stored in the stack since they are fixed
+// uses square brackets for defining, binding and accessing elements
+// [indexing]
 fn main() {
     let the_boys = ["fatau", "nash", "dan", "starlet"];
     //let the_boys: [u32; 4] = [1,2,3,4]; type annotated
