@@ -45,8 +45,8 @@ fn main()  {
     //        i = i.checked_mul(10).expect("multiplication overflowed");
     //    }
 
-    let mut i: i32 = 1;
-    loop { i *= 10 }
+//    let mut i: i32 = 1;
+//    loop { i *= 10 }
 
     // integer arithmetic categories
     // 1. checked - return Option of the result
@@ -83,26 +83,57 @@ fn main()  {
 
     // TUPLES
     // tuples only allow constants, you can't write t.i or t[i] to get the ith element
-    let text = "I see the eigenvalue in thine eye";
-    println!("text when not shadowed: {text}");
-    let text = text.split_at(21); // shadowing
-    let head = text.0;
-    let tail = text.1;
-    assert_eq!(head, "I see the eigenvalue ");
-    assert_eq!(tail, "in thine eye");
-    println!("text when shadowed: {head} {tail}");
+//    let text = "I see the eigenvalue in thine eye";
+//    println!("text when not shadowed: {text}");
+//    let text = text.split_at(21); // shadowing
+//    let head = text.0;
+//    let tail = text.1;
+//    assert_eq!(head, "I see the eigenvalue ");
+//    assert_eq!(tail, "in thine eye");
+//    println!("text when shadowed: {head} {tail}");
+//
+//    fn f<T: Into<MyType>>(t: T) -> MyType
+//    {
+//        t.into()
+//    }
+//
+//    fn f<T: Into<String>>(t: T) -> String
+//    {
+//        t.into()
+//    }
+//
+//    let x = f(b"bytes");
+//    let y = f("string");
 
-    fn f<T: Into<MyType>>(t: T) -> MyType
+    // SLICES
+    // part of an array or vectors
+    let v: Vec<f64> = vec![0.0, 0.707, 1.0, 0.707];
+    let a: [f64; 4] = [0.0, -0.707, -1.0, -0.707];
+    let sv: &[f64] = &v;
+    let sa: &[f64] = &a;
+
+    //println!("v: {:#?}, a: {:#?}, sv: {:#?}, sa: {:#?}", v,a,sv,sa);
+
+    println!(r###"
+        This raw string started with 'r###"'.
+        Therefore it does not end until we reach a quote mark ('"')
+        followed immediately by three pound signs ('###'):
+    "###);
+
+    // the .len() methods returns the byte length not the string's character length
+    // ಠ_ಠ is a 3 character string, as can be seen but it is stored in a preallocated
+    // memory of 7 bytes,
+
     {
-        t.into()
+        // that persist till the program finished/
+        let crymoji = "ಠ_ಠ";
     }
 
-    fn f<T: Into<String>>(t: T) -> String
-    {
-        t.into()
-    }
+    assert_eq!("ಠ_ಠ".len(), 7);
+    assert_eq!("ಠ_ಠ".chars().count(), 3);
 
-    let x = f(b"bytes");
-    let y = f("string");
+    println!("crymoji: {}", crymoji);
+
+
 }
 
