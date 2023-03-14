@@ -8,5 +8,31 @@ fn print_padovan() {
 } // dropped here
 
 fn main() {
+    //let x = padovan[0];
     print_padovan();
+
+    {
+        let point = Box::new((0.625, 0.5)); // point allocated here
+        let label = format!("{:?}", point); // label allocated here
+        assert_eq!(label, "(0.625, 0.5)");
+
+        println!("point: {:#?}", point);
+        println!("label: {}", label);
+    }
+
+    //println!("label: {}", label);
 }
+
+
+//RUST DATA MEMORY REPRESENTATION
+//             ______________________________
+//             |        |          |        |
+//stack frame = | buffer | capacity | length |
+//             |________|__________|________|
+// -> the buffer + capacity + length are stored in the  stack frame of the print_padovan fn above
+//
+//buffer -> a pointer to the stack/heap where the data is stored
+//capacity -> the amount of data the buffer can take before it needs to be assigned a new buffer
+//length -> the number of numbers/characters the data holds
+
+

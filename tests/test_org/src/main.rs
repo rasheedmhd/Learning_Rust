@@ -12,10 +12,10 @@
 // cargo test --test integration_test
 
 // INTEGRATION TESTS FOR BINARY CRATES
-// we can't create tests folder and call in functions defined in
-// (src/main.rs) into scope wiht 'use' to use for integration TESTING
-// only libray crates expose functions that other crates can use
-// if our crate is a binary crate not library, binary crates are meant to be executed on their own
+// we can't create a tests folder and call in functions defined in
+// (src/main.rs) into scope with 'use' to use for integration TESTING
+// Only library crates expose functions that other crates can use
+// If our crate is a binary crate not library, binary crates are meant to be executed on their own
 
 // Tells the compiler to only compile the code when we run cargo test, not in cargo build
 //#[cfg(test)]
