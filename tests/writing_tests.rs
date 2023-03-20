@@ -77,7 +77,7 @@ mod tests {
         if 2 + 22 == 4 {
             Ok(())
         } else {
-            Err(String::from("Un plu deux does not equal quatre"))
+            Err(String::from("Un plu deux n'est pas egal a quatre"))
         }
     }
 
