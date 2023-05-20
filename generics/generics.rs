@@ -79,12 +79,12 @@ struct Point2<X1, Y1> {
 }
 
 // MY SHENANIGANS
-// Here I tried passing an enum and using its intances to feed to the mixup method.
+// Here I tried passing an enum and using its instances to feed to the mixup method.
 // it didn't work and i learn't why.
 // An enum is an enumeration, when you are creating instances of enums, each instance,
 // only maps to 1 variant but with structs, instances, instantiates all the fields when
 // created. You can pass in an enum to the function below but you will only be passing it
-// as a variable not a struct, where the function can chose one field and leave the other
+// as a variable not a struct, where the function can choose one field and leave the other
 
 // you can pass the instance of an enum to the field of the instance of a struct before
 // you can feed it into a function
@@ -140,7 +140,7 @@ fn main() {
 
     println!("p3.x = {}, p3.y = {:?}", p3.x, p3.y);
 
-    // this won't because x is of type int and y is of type float
+    // this won't compile because x is of type int and y is of type float
     // Rust's type inference picks the type of the first value and
     // expects the rest of the fields to be of that same type,
     // if the next fields have a different type, Rust won't compile the code
@@ -177,14 +177,14 @@ fn main() {
     println!("The largest char is {}", result);
 
 
-    let integer = MonoPoint { x: 5,y: 10 };
+    let integer = MonoPoint { x: 5, y: 10 };
     let float = MonoPoint { x: 1.0, y: 4.0};
 
     println!("float.distance_from_origin = {}", float.distance_from_origin());
 
-    // won't run because distance_from_origin in only implemented on only
+    // won't run because distance_from_origin in only implemented on
     // float instances of the Point<T> struct
-    //println!("integer.distance_from_origin = {}", integer.distance_from_origin());
+    // println!("integer.distance_from_origin = {}", integer.distance_from_origin());
 
     let name = MonoPoint {
         x: String::from("North Pole"),

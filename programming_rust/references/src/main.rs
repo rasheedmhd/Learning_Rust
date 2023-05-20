@@ -117,14 +117,3 @@ fn main() {
     ////! ﻿assert!(!std::ptr::eq(rx, ry));
 
 }
-
-
-// PAGE TABLE FORMAT IN x86
-type PageTableEntry = i32;
-// or
-enum PageTableEntry {
-    entry: i32,
-}
-struct PageTable {
-    entries: [PageTableEntry; 512]
-}
