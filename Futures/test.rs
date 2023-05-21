@@ -5,6 +5,11 @@ use futures::future::{
     FutureExt,
 };
 
+use core::marker::PhantomPinned;
+use std::pin::Pin;
+use std::mem;
+
+
 fn main() {
     /// WAITING AND POLLING FUTURES
 
@@ -190,4 +195,88 @@ fn main() {
             }
         }
     }
+
+    /// THE EXAMPLE FUNCTION
+    // The state machine has implemented the function's body
+    // We initialized the state machine and return it
+    // this function does not execute the state machine
+    // by design Rust Futures must be polled for the first time
+    // before they execute.
+    fn example(min_len) -> ExampleStateMachine {
+        ExampleStateMachine::Start(StartState {
+            min_len,
+        })
+    }
+
+    /// PINNING
+    // locking<pinning> a value to its location in memory.
+    // SELF-REFERENTIAL STRUCTS
+    // when variables reference each other
+    async fn pin_example() -> i32 {
+        let array = [1,2,3];
+        let element = &array[2];
+        async_write_file("foo.txt", element.to_string()).await;
+        *element
+    }
+
+    struct WaitingOnWriteState {
+        array: [1,2,3],
+        element: 0x1001c, // addr of the last array element -> resulting from a pointer dereference
+    }
+
+    /// USE HEAP ALLOCATION TO CREATE A SELF-REFERENTIAL STRUCT
+    // fn main() {
+    // Creating and storing a self-referential structure on the heap
+    // with mutability
+    // Avoiding mutability by wrapping Box::new with a Pin<T> making the value
+    // wrapped by Box to opt-out of Unpin
+    // We could use Pin<Box<SelfReferential>>  or Box::pin
+    //let mut heap_value = Box::new(
+    let mut heap_value = Box::pin(
+        SelfReferential {
+            self_ptr: 0 as *const _,
+        }
+    );
+
+    unsafe {
+        // unsafe because we need to make sure we don't move the reference of the struct to
+        // a new location leaving the self_ptr as a dangling pointer
+        let mut_ref = Pin::as_mut(&mut heap_value);
+        // get_unchecked_mut works on Pin<&mut T> hence we use Pin::as_mut to get Pin<&mut T>
+        Pin::get_unchecked_mut(mut_ref).self_ptr = ptr;
+    }
+    // let ptr = &*heap_value as *const SelfReferential;
+    // heap_value.self_ptr = ptr;
+    println!("Heap value at: {:p}", heap_value);
+    println!("internal reference: {:p}", heap_value.self_ptr);
+
+    // }
+
+    /// BREAK HEAP ALLOCATION
+    let stack_value = mem::replace(&mut *heap_value, SelfReferential {
+        self_ptr: 0 as *const _,
+    });
+
+    /// PREVENTING THE CREATION OF DANGLING POINTERS
+    // By using Pin on SelfReferential we prevent the moving of the SelfReferential struct
+    // from the heap to the stack breaking the self-referencing
+    // Pin therefore helps and to create "correct" self-referential structs in Rust
+    // allbeit responsibility is left onto the shoulders of the programmer to make sure that
+    // he is doing the right thing within the unsafe {} block
+    println!("stack value at: {:p}", stack_value);
+    println!("internal reference: {:p}", stack_value.self_ptr);
+
+}
+
+// a self referential struct that has an immutable pointer
+// that points to itself
+
+// Unpin is an auto trait meaning it is impl by default for all Rust types
+// Pin allows us to explicitly opt-out of Unpin to get Pinning
+// To do that we need the PhantomPinned marker
+struct SelfReferential {
+    self_ptr: *const Self,
+    // by having a single field opt-out of Unpin, the whole struct opt-outs as well
+    // PhantomPinned (zero-sized marker) purpose is to not implement Unpin trait
+    _pin: PhantomPinned,
 }
