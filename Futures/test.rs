@@ -280,3 +280,14 @@ struct SelfReferential {
     // PhantomPinned (zero-sized marker) purpose is to not implement Unpin trait
     _pin: PhantomPinned,
 }
+
+/// STREAMS
+// traits that return multiple values one after the other before completing
+pub trait Stream {
+    type Item;
+    // can be called repeatedly till Poll::Ready(None) is returned,
+    // at which point the stream is finished. In that regard no more polling
+    // should be initiated
+    // similar to Iterator::next
+    fn poll_next(self: Pin<&mut self>, cx: &mut Context<'_>) -> Poll<Option<Self::Item>>;
+}
