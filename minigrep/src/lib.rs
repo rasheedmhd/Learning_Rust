@@ -13,7 +13,10 @@ Rust:
 safe, fast, productive.
 Pick three.
 Duct tape.";
-        assert_eq!(vec!["safe, fast, productive."], search(query, contents));
+        assert_eq!(
+            vec!["safe, fast, productive."], 
+            search(query, contents)
+        );
     }
 
     #[test]
@@ -26,7 +29,8 @@ Pick three.
 Trust me.";
         assert_eq!(
             vec!["Rust:", "Trust me."],
-            case_insensitive_search(query, contents));
+            case_insensitive_search(query, contents)
+        );
     }
 }
 
@@ -39,6 +43,7 @@ pub fn case_insensitive_search<'a>(query: &str, contents: &'a str) -> Vec<&'a st
             matched_lines.push(line);
         }
     }
+    
     matched_lines
 
 }

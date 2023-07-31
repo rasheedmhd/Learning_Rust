@@ -1,3 +1,18 @@
+// !LESSONS! 
+
+// it is a good practice to restructure your codes when it grows
+// this helps in reducing the complextiy of the program
+// Group things in structs
+// and others in a completely new file like lib, from main
+
+// Don't rely on generic error messages, try to return specific errors messages
+// Helps in understanding your errors which helps in understanding the program
+// in prod and how to fix it.
+
+// returning () is the idiomatic way to calling functions for their side effects only
+
+// !endLesson!
+
 use std::env;
 use std::process;
 
