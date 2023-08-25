@@ -1,5 +1,6 @@
 use std::error::Error;
 use std::fs;
+use std::env;
 
 #[cfg(test)]
 mod tests {
@@ -62,12 +63,15 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>>{
     let contents = fs::read_to_string(config.text_file_path)?;
+    let results = if config.ignore_case {
+	case_insensitive_search(&config.search_term, &contents)
+    } else  {
+	search(&config.search_term, &contents)
+    };
 
-    for line in search(&config.search_term, &contents) {
+    for line in results {
         println!("{line}");
     }
-
-    //println!("With text:\n\n{contents}");
 
     Ok(())
 }
@@ -75,6 +79,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>>{
 pub struct Config {
     pub search_term: String,
     pub text_file_path: String,
+    ignore_case: bool,
 }
 
 impl Config {
@@ -84,8 +89,8 @@ impl Config {
         }
         let search_term = args[1].clone();
         let text_file_path = args[2].clone();
-        Ok(Config { search_term, text_file_path })
-        //(search_term, text_file_path)
+        let ignore_case = env::var("IGNORE_CASE").is_ok();
+        Ok(Config { search_term, text_file_path, ignore_case })
     }
 }
 
