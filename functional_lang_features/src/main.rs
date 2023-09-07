@@ -129,7 +129,7 @@ fn main() {
         .join()
         .unwrap();
 
-    // println!("After calling closure: {:?}", list);\
+    // println!("After calling closure: {:?}", list);
     //
     //
     //
@@ -198,5 +198,44 @@ fn main() {
         num_sort_ops += 1;
         r.width
     });
-    println!("{:#?} sorted in {num_sort_ops} operations ", list);
+    // println!("{:#?} sorted in {num_sort_ops} operations ", list);
+
+    // Processing a Series of Items with Iterators
+    // Allows you to perform an operation on a sequence of items in turn
+    // are lazy -> no effect until called
+    //
+    //
+    let v1 = vec![1, 2, 3];
+    let v1_iter = v1.iter();
+
+    for val in v1 {
+        println!("Got: {}", val);
+    }
+    // The Iterator Trait and the next Method
+    //
+    // all iterators implement the Iterator trait defined in the std lib
+    pub trait Iterator {
+        // associated types
+        // implementating the Iterator trait requires an Item type definiation
+        type Item;
+
+        fn next(&mut self) -> Option<Self::Item>;
+    }
+
+    // methods with default implementations
+    // code in src/lib.rs
+    //
+    //
+    //  Methods that produce other methods
+    // Iterator adaptors -> do not consume, the iterators
+    // they instead produce other iterators my modifying some aspects of the original iterator
+
+    let v1: Vec<i32> = vec![1, 2, 3];
+
+    // we shouldn't do this because iterator adaptors are lazy we need to consume the iterators
+    // v1.iter().map(|x| x + 1);
+    let v2: Vec<_> = v1.iter().map(|x| x + 1).collect();
+
+    println!("{:?}", v2);
+    assert_eq!(v2, vec![2, 3, 4]);
 }
