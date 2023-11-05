@@ -5,8 +5,7 @@
 
 // PREVENTING DANGLING REFERENCES WITH LIFETIMES
 // lifetimes prevents us from having dangling references -> programs that refers to data
-// that they are not intended to reference
-
+// that they are not intended to reference bc such data has been destroyed
 
 // this struct holds a reference to a string &str
 // Really terrible things can happen if the data that ImportantExcerpt.part is
@@ -14,18 +13,20 @@
 // we are lifetime annotating the struct. The restriction this provides is that
 // ImportantExcerpt.part cannot outlive whatever type it ends up referencing.
 
-struct ImportantExcerpt<'a> { // LIFETIME ANNOTATION IN STRUCT DEFINITIONS
-part: &'a str,
+struct ImportantExcerpt<'a> {
+    // LIFETIME ANNOTATION IN STRUCT DEFINITIONS
+    part: &'a str,
 }
 
-impl<'a> ImportantExcerpt<'a> { // LIFETIME ANNOTATIONS IN METHOD DEFINITIONS
-// because of RULE TWO there is no need applying lifetime annotation on level method
-fn level(&self) -> i32 {
-    3
-}
+impl<'a> ImportantExcerpt<'a> {
+    // LIFETIME ANNOTATIONS IN METHOD DEFINITIONS
+    // because of RULE TWO there is no need applying lifetime annotation on level method
+    fn level(&self) -> i32 {
+        3
+    }
 }
 
-impl<'a> ImportantExcerpt<'a>  {
+impl<'a> ImportantExcerpt<'a> {
     // RULE ONE APPLIED gives &self and announcement different lifetimes
     // RULE ONE + TWO APPLIED gives the output lifetime(return type) the lifetime of self
     fn announce_and_return_part(&self, announcement: &str) -> &str {
@@ -34,7 +35,7 @@ impl<'a> ImportantExcerpt<'a>  {
     }
 }
 
-impl<'a> ImportantExcerpt<'a>  {
+impl<'a> ImportantExcerpt<'a> {
     // RULE ONE APPLIED gives &self and announcement different lifetimes
     // RULE ONE + TWO APPLIED gives the output lifetime(return type) the lifetime of self
     fn announce_and_return_part<'b, 'c>(&'b self, announcement: &'c str) -> &str {
@@ -42,7 +43,6 @@ impl<'a> ImportantExcerpt<'a>  {
         self.part: &'b str
     }
 }
-
 
 fn main() {
     //    let r;
@@ -57,7 +57,7 @@ fn main() {
     // The rust compiler has a BORROW CHECKER that compares scopes to determine if all borrows
     // are valid. A borrow is valid when the data it is borrowed from,has an equal lifespan or
     // a longer life span.
-    // if an item borrow from some data, it needs to be available till the item goes out of scope
+    // if an item borrow from some data, the data needs to be available till the item goes out of scope
     // before it can be destroyed.
     // the BORROW CHECKER prevents one from having a reference to data that has been destroyed
 
@@ -82,7 +82,6 @@ fn main() {
     // So we need to help our friend, figure out the relationship between the 2 &str 's, and
     // the returned &str so it can do its analysis, this is where lifetimes come in handy
 
-
     //    fn longest<T,U>(x: &[T], y: &[U]) {
     //        if x.len() > y.len() {
     //            x
@@ -101,7 +100,7 @@ fn main() {
     // LIFETIME SYNTAX RULES
     // 1. Starts with an apostrophe -> '
     // 2. Appears after the reference token followed by the type (&) -> &'a i32
-    // 3. Can be annotated on both non mutable and mutable references -> &'a i32 &&|| &' mut a i32
+    // 3. Can be annotated on both non mutable and mutable references -> &'a i32 && || &' mut a i32
     // 4. Are usually short like generic fn types, mostly 'a' is used
     // 5. A space is between the lifetime name and the type
 
@@ -118,20 +117,19 @@ fn main() {
             y
         }
     } // now this works
-    //
-    //    let stringL = String::from("long string is long");
-    //    {
-    //        let stringS = String::from("xyz");
-    //        let result2 = longest(stringL.as_str(), stringS.as_str());
-    //        println!("The longest string is {}", result2);
-    //    } // this works
+      //
+      //    let stringL = String::from("long string is long");
+      //    {
+      //        let stringS = String::from("xyz");
+      //        let result2 = longest(stringL.as_str(), stringS.as_str());
+      //        println!("The longest string is {}", result2);
+      //    } // this works
 
     // just like the rules described in the function signature, what happens here is that
     // the lifetimes of both args should valid, so Rust takes the shortest lifespan always
     // and if that overlapse with the longer one and the code doesn't try to use the
     // longer lifespan when the shorter lifespan has been destroyed(goes out of scope), Rust
     // compiles just fine.
-
 
     //    let stringL = String::from("long string is long");
     //    let result2;
@@ -172,48 +170,50 @@ fn main() {
     // mentioned that lifetimes defines the relationship between the multiple parameter references
     // if there is no relationship between them, why annotate?
 
-    fn longestT<'a>(x: &'a str, y: &str)  -> &'a str {// y has no lifetime annotation
+    fn longestT<'a>(x: &'a str, y: &str) -> &'a str {
+        // y has no lifetime annotation
         // yet code works perfectly
-        return x
+        return x;
     }
     let resultT = longest(string1.as_str(), string2);
     println!(
-            "This is the first argument returned from calling longestT: {}",
-    resultT
+        "This is the first argument returned from calling longestT: {}",
+        resultT
     );
 
     // What happens if there is no relationship between the parameters but we still lifetime annotate all?
-    fn longestAL<'a>(x: &'a str, y: &'a str)  -> &'a str { // even though y has no relationship
+    fn longestAL<'a>(x: &'a str, y: &'a str) -> &'a str {
+        // even though y has no relationship
         // with x we still lifetime annotate both, code works with no issues
-        return x
+        return x;
     }
     let resultAL = longestAL(string1.as_str(), string2);
     println!(
-            "This is the first argument returned from calling longestAL: {}",
-    resultAL
+        "This is the first argument returned from calling longestAL: {}",
+        resultAL
     );
 
     // WHAT HAPPENS IF THE FUNCTION TAKE multiple parameters BUT USES ONLY ONE?
-    fn longestMP<'a>(x: &'a str, y: &'a str, b: &'a str, c: &'a str)  -> &'a str {
+    fn longestMP<'a>(x: &'a str, y: &'a str, b: &'a str, c: &'a str) -> &'a str {
         // even though y, b, c have no relationship with x
         // we still lifetime annotate all, code works with no issues
-        return x
+        return x;
     }
     let resultMP = longestAL(string1.as_str(), string2);
     println!(
-            "This is the first argument returned from calling longestMP: {}",
-    resultMP
+        "This is the first argument returned from calling longestMP: {}",
+        resultMP
     );
 
     // WHAT HAPPENS IF THE FUNCTION TAKE multiple parameters BUT USES ONLY ONE?
-    fn longestON<'a>(x: &str, y: &str, b: &str, c: &'a str)  -> &'a str {
+    fn longestON<'a>(x: &str, y: &str, b: &str, c: &'a str) -> &'a str {
         // x, b, y have no relationship with c so we lifetime annotate only c, code works with no issues
-        return c
+        return c;
     }
     let resultON = longestAL(string1.as_str(), string2);
     println!(
-            "This is the first argument returned from calling longestON: {}",
-    resultON
+        "This is the first argument returned from calling longestON: {}",
+        resultON
     );
 
     // LIFETIME ANNOTATION IN STRUCT DEFINITIONS
@@ -247,7 +247,7 @@ fn main() {
 
     // Acting as the Compiler to annotate the following code snippets with lifetimes,
     // using the LIFETIME ELISION RULES
-    fn first_word(s: &str) -> &str { }
+    fn first_word(s: &str) -> &str {}
     // it has 1 parameter that is a reference, per RULE ONE & TWO:
     // the compiler gives us this code,
     fn first_word<'a>(s: &'a str) -> &str {} // RULE ONE APPLIED
@@ -269,18 +269,14 @@ fn main() {
     // String literals have static lifetimes by default
 
     let s: &'static str = "I have a static lifetime."; // store in programs binary -> always available
-    // avoid pasting 'static everywhere in your code even if the compiler suggest, fix the bug
-    // causing the compiler to throw that error instead.
+                                                       // avoid pasting 'static everywhere in your code even if the compiler suggest, fix the bug
+                                                       // causing the compiler to throw that error instead.
 
     // GENERIC TYPE PARAMETERS, TRAIT BOUNDS AND LIFETIMES
     // ... all in one function
-    fn longest_with_an_announcement<'a, T> (
-            x: &'a str,
-            y: &'a str,
-            ann: T,
-            ) -> &'a str
+    fn longest_with_an_announcement<'a, T>(x: &'a str, y: &'a str, ann: T) -> &'a str
     where
-    T: Display,
+        T: Display,
     {
         println!("announcement! {}", ann);
         if x.len() > y.len() {
@@ -289,8 +285,4 @@ fn main() {
             y
         }
     }
-
 }
-
-
-
