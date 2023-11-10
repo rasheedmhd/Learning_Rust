@@ -29,8 +29,19 @@ impl<T> Deref for MyBox<T> {
 }
 
 
+// Deref Coercions
+fn hello(name: &str) {
+    println!("Hello, {name}");
+}
+
+
 fn main() {
-//    let b = Box::new(5);
+
+    let m = MyBox::new(String::from("Ada"));
+    hello(&m);
+    //    If Rust didn't implement Deref Coercions, we would have written the above us
+    hello(&(*m)[..]);
+    //let b = Box::new(5);
     let b = MyBox::new(5);
     println!("b holds: {:#?}", b);
 
