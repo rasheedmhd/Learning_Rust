@@ -1,63 +1,68 @@
-pub trait Draw {
-    fn draw(&self);
+pub struct PostContent {
+    text: String,
+    image_url: String,
+    tags: Vec<String>,
+    video_url: Option<String>,
 }
 
-// Using dyn Trait as a standin for any type that implements trait Trait
-//#[derive(Debug)]
-pub struct Screen {
-    pub components: Vec<Box<dyn Draw>>,
+pub struct Post {
+    state: Option<Box<dyn State>>,
+    //    content: PostContent,
+    content: String,
 }
 
-#[derive(Debug)]
-pub struct Button {
-    pub height: u32,
-    pub width: u32,
-    pub label: String,
-}
-
-#[derive(Debug)]
-pub struct TextBox {
-    pub max_length: usize,
-    pub height: u32,
-    pub width: u32,
-    pub label: String,
-}
-
-#[derive(Debug)]
-pub struct SelectBox {
-    pub label: String,
-    pub options: Vec<String>,
-}
-
-impl Screen {
-    pub fn run(&self) {
-        for component in self.components.iter() {
-            println!("drawing screen components.....");
-            component.draw();
-            println!("drawing screen components completed successfully");
+impl Post {
+    pub fn new() -> Self {
+        Post {
+            state: Some(Box::new(Draft {})),
+            content: String::new(),
         }
     }
-    pub fn print(&self) {
-        for component in self.components.iter() {
-            format!("Components: {:#?}", component);
+
+    pub fn add_content(&mut self, text: &str) {
+        self.content.push_str(text);
+    }
+
+    pub fn content(&self) -> &str {
+        ""
+    }
+
+    pub fn request_review(&mut self) {
+        if let Some(state) = self.state.take() {
+            self.state = Some(state.request_review());
         }
     }
-}
 
-impl Draw for Button {
-    fn draw(&self) {
+    pub fn approve(&mut self) {
         //
     }
 }
 
-impl Draw for TextBox {
-    fn draw(&self) {
-        //
+trait State {
+    fn request_review(self: Box<Self>) -> Box<dyn State>;
+}
+
+struct Draft {}
+struct InReview {}
+struct Published {}
+
+impl State for Draft {
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        Box::new(InReview {})
     }
 }
 
-impl Draw for SelectBox {
-    fn draw(&self) {
-        //
+impl State for InReview {
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        Box::new(Self {})
     }
 }
+
+struct PendingReview {}
+
+impl State for PendingReview {
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+}
+//impl State for Published {}

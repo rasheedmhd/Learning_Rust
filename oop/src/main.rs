@@ -1,37 +1,18 @@
-//Using Trait Objects That Allow for Values of Different Types
-
-use oop::{Screen, SelectBox, TextBox};
+use oop::Post;
 
 fn main() {
-    let page = Screen {
-        components: vec![
-            Box::new(TextBox {
-                max_length: 10000,
-                width: 200,
-                height: 17,
-                label: String::from("About Startup"),
-            }),
-            Box::new(SelectBox {
-                label: String::from("Industries"),
-                options: vec![
-                    String::from("Aerospace"),
-                    String::from("Surveillance Drones"),
-                    String::from("Systems"),
-                ],
-            }),
-            Box::new(TextBox {
-                max_length: 10000,
-                width: 200,
-                height: 17,
-                label: String::from("Mission"),
-            }),
-            //            Box::new(Button {
-            //                height: 12,
-            //                width: 24,
-            //                label: String::from("Create"),
-            //            }),
-        ],
-    };
+    // unapproved posts should not be able to get posted
+    let mut post = Post::new();
 
-    page.run();
+    post.add_content("Where Lifetimes come from and where they go!");
+    assert_eq!("", post.content());
+
+    post.request_review();
+    assert_eq!("", post.content());
+
+    post.approve();
+    assert_eq!(
+        "Where Lifetimes come from and where they go!",
+        post.content()
+    );
 }
