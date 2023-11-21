@@ -84,3 +84,48 @@ impl State for Published {
         &post.content
     }
 }
+
+/// GOING FOR MORE TYPE SAFETY
+pub struct SafePost {
+    content: String,
+}
+
+pub struct SafeDraftPost {
+    content: String,
+}
+
+pub struct SafeInReviewPost {
+    content: String,
+}
+
+impl SafePost {
+    pub fn new() -> SafeDraftPost {
+        SafeDraftPost {
+            content: String::new(),
+        }
+    }
+
+    pub fn content(&self) -> &str {
+        &self.content
+    }
+}
+
+impl SafeDraftPost {
+    pub fn add_text(&mut self, text: &str) {
+        self.content.push_str(text);
+    }
+
+    pub fn request_review(self) -> SafeInReviewPost {
+        SafeInReviewPost {
+            content: self.content,
+        }
+    }
+}
+
+impl SafeInReviewPost {
+    pub fn approve(self) -> SafePost {
+        SafePost {
+            content: self.content,
+        }
+    }
+}
