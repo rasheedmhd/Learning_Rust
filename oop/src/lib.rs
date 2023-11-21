@@ -24,22 +24,31 @@ impl Post {
     }
 
     pub fn content(&self) -> &str {
-        ""
+        self.state.as_ref().unwrap().content(self)
     }
 
     pub fn request_review(&mut self) {
-        if let Some(state) = self.state.take() {
-            self.state = Some(state.request_review());
+        if let Some(current_state) = self.state.take() {
+            self.state = Some(current_state.request_review());
         }
     }
 
     pub fn approve(&mut self) {
-        //
+        if let Some(current_state) = self.state.take() {
+            self.state = Some(current_state.approve());
+        }
     }
 }
 
 trait State {
+    // only valid when called on a type held in a Box
+    // restricting the types that the method call be called on
+    // further reducing type errors
     fn request_review(self: Box<Self>) -> Box<dyn State>;
+    fn approve(self: Box<Self>) -> Box<dyn State>;
+    fn content<'a>(&self, post: &'a Post) -> &'a str {
+        ""
+    }
 }
 
 struct Draft {}
@@ -50,19 +59,28 @@ impl State for Draft {
     fn request_review(self: Box<Self>) -> Box<dyn State> {
         Box::new(InReview {})
     }
+    fn approve(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
 }
 
 impl State for InReview {
     fn request_review(self: Box<Self>) -> Box<dyn State> {
-        Box::new(Self {})
+        self
+    }
+    fn approve(self: Box<Self>) -> Box<dyn State> {
+        Box::new(Published {})
     }
 }
-
-struct PendingReview {}
-
-impl State for PendingReview {
+impl State for Published {
     fn request_review(self: Box<Self>) -> Box<dyn State> {
         self
     }
+    fn approve(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+
+    fn content<'a>(&self, post: &'a Post) -> &'a str {
+        &post.content
+    }
 }
-//impl State for Published {}
