@@ -31,13 +31,13 @@ fn parametised_function(x: i32) {
 // EXPRESSIONS can be part of STATEMENTS
 // EXPRESSIONS do not end in ; I repeat EXPRESSIONS, DO NOT END in ';'
 // if you end an EXPRESSIONS with a ';' it will become a STATEMENT
-fn main() {
-    let y = {
-        let x = 3;
-        x + 1
-    };
-    println!("The value of y is: {y}");
-}
+// fn main() {
+//     let y = {
+//         let x = 3;
+//         x + 1
+//     };
+//     println!("The value of y is: {y}");
+// }
 
 //FUNCTIONS THAT RETURNS A VALUE
 
@@ -47,15 +47,15 @@ fn five() -> i32 {
     // using constants to play with expressions
 }
 
-fn main() {
-    let x = five();
-    println!("The value of x is: {x}");
-}
+// fn main() {
+//     let x = five();
+//     println!("The value of x is: {x}");
+// }
 
-fn main() {
-    let x = plust_one(5); // I have seen the t lol
-    println!("The value of x is: {x}");
-}
+// fn main() {
+//     let x = plust_one(5); // I have seen the t lol
+//     println!("The value of x is: {x}");
+// }
 
 fn plust_one(x: i32) -> i32 { // here we are type annotating the function
     x + 1 // You realise there is no ';' right? Good

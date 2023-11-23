@@ -1,10 +1,10 @@
 // VARIABLES
-fn main() {
-    let mut x = 5;
-    println!("The value of x is: {}", x);
-    x = 6;
-    println!("The value of x is: {}", x);
-}
+// fn main() {
+//     let mut x = 5;
+//     println!("The value of x is: {}", x);
+//     x = 6;
+//     println!("The value of x is: {}", x);
+// }
 
 //CONSTANTS
 //const VALUE_OF_PI: u32 = 3.14;
@@ -18,15 +18,15 @@ fn main() {
 
 
 // SHADOWING
-fn main() {
-    let x = 5;
-    let x = x +1;
-    {
-        let x = x * 2;
-        println!("The value of x in the inner scope is: {x}");
-    }
-    println!("The value of x is: {x}");
-}
+// fn main() {
+//     let x = 5;
+//     let x = x +1;
+//     {
+//         let x = x * 2;
+//         println!("The value of x in the inner scope is: {x}");
+//     }
+//     println!("The value of x is: {x}");
+// }
 
 // shadowing is used to change a variable's type
 // shadowing is different from making a variable mutable
@@ -38,11 +38,11 @@ fn main() {
 // rust has two types of data types
 // 1. scalar => integers, booleans, floating-point numbers and characters
 // 2. compound
-// INTEGERS default to i32
-fn main() {
-    let guess: u32 = "42".parse().expect("Not a number");
-    println!("{guess}");
-}
+// // INTEGERS default to i32
+// fn main() {
+//     let guess: u32 = "42".parse().expect("Not a number");
+//     println!("{guess}");
+// }
 
 // FLOATING POINTS
 // are f64 for 64bits and f32 for 32 bits - both unsigned
@@ -63,12 +63,12 @@ fn main() {
 // supports type annotation let status: bool = true;
 
 // CHARACTERS => 4 bytes in size
-fn main() {
-    let c = 'z';
-    let c: char = 'ℤ'; // supports type annotation
-    let heart_eyed_cat = '😻';
-    println!("c: {c}, heart_eyed_cat: {heart_eyed_cat}");
-}
+// fn main() {
+//     let c = 'z';
+//     let c: char = 'ℤ'; // supports type annotation
+//     let heart_eyed_cat = '😻';
+//     println!("c: {c}, heart_eyed_cat: {heart_eyed_cat}");
+// }
 
 // COMPOUND DATA TYPES => combines several different data types into 1.
 // rust has 2 types: tuples and arrays
@@ -76,15 +76,15 @@ fn main() {
 // TUPLES => container that holds distinct values of distinct types
 // supports type annotation
 // tuples are fixed in size, once created they cannot be increased
-fn main() {
-    let tup = (3, 5.03242, 1);
-   //let tup: (u32, f32, u8) = (3, 5.4, 1);
-    let (a, b, c) = tup;
-    let three = tup.0; //using dot notation for indexing on tuples
-    let one = tup.2;
-    println!("The value of b is: {b}");
-    println!("The values of three and one are {three}, {one}");
-}
+// fn main() {
+//     let tup = (3, 5.03242, 1);
+//    //let tup: (u32, f32, u8) = (3, 5.4, 1);
+//     let (a, b, c) = tup;
+//     let three = tup.0; //using dot notation for indexing on tuples
+//     let one = tup.2;
+//     println!("The value of b is: {b}");
+//     println!("The values of three and one are {three}, {one}");
+// }
 
 // ARRAYS => supports type annotation
 // are fixed in size
@@ -106,22 +106,22 @@ fn main() {
 
 use std::io;
 
-fn main() {
-    let a = [1,2,3,4,5];
+// fn main() {
+//     let a = [1,2,3,4,5];
 
-    println!("Please input an array index: ");
+//     println!("Please input an array index: ");
 
-    let mut index = String::new();
+//     let mut index = String::new();
 
-    io::stdin()
-        .read_line(&mut index)
-        .expect("Failed to read line");
+//     io::stdin()
+//         .read_line(&mut index)
+//         .expect("Failed to read line");
 
-    let index: usize = index
-        .trim()
-        .parse().
-        expect("Index entered was not a number");
+//     let index: usize = index
+//         .trim()
+//         .parse().
+//         expect("Index entered was not a number");
 
-    let element = a[index];
-    println!("The value of the element at index {index} is: {element}");
-}
+//     let element = a[index];
+//     println!("The value of the element at index {index} is: {element}");
+// }
