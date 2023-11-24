@@ -1,4 +1,5 @@
 use std::ops::Add;
+use std::fmt;
 
 pub trait Iterator {
     type Item;
@@ -118,9 +119,39 @@ impl Animal for Fish {
     }
 }
 
+// Using Supertraits to require one trait's functionality in another
+trait BorderPrinter: fmt::Display {
+    fn print_border(&self) {
+        let output = self.to_string();
+        let len = output.len();
+        println!("{}", "*".repeat(len + 4));
+        println!("*{}*", " ".repeat(len + 2));
+        println!("* {} *", output);
+        println!("*{}*", " ".repeat(len + 2));
+        println!("{}", "*".repeat(len + 4));
+    }
+}
+
+// #[derive(Debug, Display)]
+struct Point2 {
+    x: i32,
+    y: i32,
+}
+
+impl BorderPrinter for Point2 {}
+
+impl fmt::Display for Point2 {
+    fn fmt(&self, formatter_function: &mut fmt::Formatter) -> fmt::Result {
+        write!(formatter_function, "( {}, {} )", self.x, self.y )
+    }
+}
+
 
 fn main() {
-    println!("Hello, world!");
+    println!("Hello, world! This is Advanced Traits with Rasheed Starlet");
+
+    let p = Point2 { x: 1, y: 3 };
+    p.print_border();
 
     assert_eq!(
         Point { x: 1, y: 0 } + Point { x: 2, y: 3 },
