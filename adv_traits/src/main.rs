@@ -146,9 +146,35 @@ impl fmt::Display for Point2 {
     }
 }
 
+// Using the Newtype Pattern to Implement External Traits on External Types
+struct Wrapper(Vec<String>);
+
+impl fmt::Display for Wrapper {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "[{:?}]", self.0)
+        // write!(f, "[{}]", self.0.join(", "))
+        // write!(f, "{}", self.0.join(" "))
+    }
+}
+
+// impl fmt::Display for Vec<String> {
+//     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+//         write!(f, "{}", self[0..])
+//     }
+// }
+
+
 
 fn main() {
     println!("Hello, world! This is Advanced Traits with Rasheed Starlet");
+
+    let node = Wrapper(
+        vec!["".to_string()]
+    );
+
+    let mut new_vec = Wrapper([String::from("This"), String::from("is"), String::from("Amazing"),].to_vec());
+    new_vec.0.push("Another String".to_string());
+    println!("{new_vec}");
 
     let p = Point2 { x: 1, y: 3 };
     p.print_border();
