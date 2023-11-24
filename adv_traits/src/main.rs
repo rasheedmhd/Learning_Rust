@@ -1,4 +1,4 @@
-use std::ops::Add;
+use std::ops::{Deref, DerefMut, Add};
 use std::fmt;
 
 pub trait Iterator {
@@ -151,17 +151,24 @@ struct Wrapper(Vec<String>);
 
 impl fmt::Display for Wrapper {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "[{:?}]", self.0)
         // write!(f, "[{}]", self.0.join(", "))
-        // write!(f, "{}", self.0.join(" "))
+        write!(f, "{}", self.0.join(" "))
     }
 }
 
-// impl fmt::Display for Vec<String> {
-//     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-//         write!(f, "{}", self[0..])
-//     }
-// }
+impl Deref for Wrapper {
+    type Target = Vec<String>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl DerefMut for Wrapper {
+    // type Target = Vec<String>;
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
 
 
 
@@ -173,8 +180,15 @@ fn main() {
     );
 
     let mut new_vec = Wrapper([String::from("This"), String::from("is"), String::from("Amazing"),].to_vec());
-    new_vec.0.push("Another String".to_string());
-    println!("{new_vec}");
+    // let def_new_vec = &mut *new_vec;
+
+    new_vec.push("Dereferenced Wrapper and pushed Another String".to_string());
+    // new_vec.push_str("Another String");
+
+    let first = &new_vec.0[new_vec.0.len() - 1];
+
+    println!("first value of vector in new_vec is: {first}");
+    println!("what we get when we dereference new_vec: {:?}", *new_vec);
 
     let p = Point2 { x: 1, y: 3 };
     p.print_border();
