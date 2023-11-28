@@ -1,11 +1,17 @@
-use std::thread;
+use std::{
+    sync::{Arc, Mutex, mpsc},
+    thread,
+};
+
 type JoinHandle = thread::JoinHandle<()>;
 
 pub struct ThreadPool {
     // threads: Vec<JoinHandle>,
     workers: Vec<Worker>,
+    sender: mpsc::Sender<Job>,
 }
 
+struct Job;
 
 pub struct Worker {
     id: usize,
@@ -14,13 +20,13 @@ pub struct Worker {
 
 // Define a Worker::new function that takes an id number and returns a Worker instance that holds the id and a thread spawned with an empty closure.
 impl Worker {
-    fn new(id: usize) -> Self {
-        Worker {
-            id: id,
-            thread: thread::spawn(|| {
+    fn new(id: usize, receiver: Arc<Mutex<mpsc::Receiver<Job>>>) -> Self {
 
-            }),
-        }
+        let thread = thread::spawn(|| {
+            receiver;
+        });
+
+        Worker { id, thread }
     }
 }
 
@@ -36,11 +42,15 @@ impl ThreadPool {
         assert!(size > 0);
         let mut workers = Vec::with_capacity(size);
         // In ThreadPool::new, use the for loop counter to generate an id, create a new Worker with that id, and store the worker in the vector.
+
+        let (sender, receiver) = mpsc::channel();
+        let receiver = Arc::new(Mutex::new(receiver));
+
         for id in 0..size {
             // create some threads and store them in the vector
-            workers.push(Worker::new(id));
+            workers.push(Worker::new(id, Arc::clone(&receiver)));
         }
-        ThreadPool { workers }
+        ThreadPool { workers, sender }
     }
 
     // try to write a function named build with the following signature to compare with the new function:
