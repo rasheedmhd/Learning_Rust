@@ -22,9 +22,9 @@ fn main() {
     println!("Dust Web Server!");
 
     let listener = TcpListener::bind("127.0.0.1:7171").unwrap();
-    let pool = ThreadPool::new(7);
+    let mut pool = ThreadPool::new(7);
 
-    for stream in listener.incoming() {
+    for stream in listener.incoming().take(2) {
         let stream = stream.unwrap();
 
         println!("[Dust Web Server]: Open here: {}:{}", ADDRESS, PORT);
@@ -36,6 +36,7 @@ fn main() {
             handle_connection(stream);
         });
     }
+    println!("Shutting down.");
 }
 fn handle_connection(mut stream: TcpStream) {
     let buf_reader = BufReader::new(&mut stream);
