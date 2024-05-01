@@ -1,7 +1,7 @@
 // !LESSONS! 
 
 // it is a good practice to restructure your codes when it grows
-// this helps in reducing the complextiy of the program
+// this helps in reducing the complexity of the program
 // Group things in structs
 // and others in a completely new file like lib, from main
 
