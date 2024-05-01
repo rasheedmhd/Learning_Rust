@@ -20,4 +20,35 @@ fn main() {
     for (key, value) in &scores {
         println!("{key}: {value}");
     }
+
+    // Ownership and HashMaps
+    let key = String::from("Purple");
+    let value = 12;
+
+    let mut scores = HashMap::new();
+    // If we insert a key and a value into a hash map and then
+    // insert that same key with a different value, the value
+    // associated with that key will be replaced.
+    // This means that the key's type will change to the type
+    // of the new key if it were a different type.
+    // https://doc.rust-lang.org/std/collections/struct.HashMap.html#method.insert
+    scores.insert(key, value);
+    // key is invalid at this point,
+    // scores takes ownership of it.
+    // value however is a scaler value
+    // and implements the Copy Trait
+    // therefore scores doesn't take
+    // ownership of it but rather copies it.
+    println!("{key}: {value}");
+
+    // Assuming we wanted to add a
+    // key value pair into a HashMap
+    // and didn't know whether the
+    // key already existed or not
+    // Or we wanted to see if there
+    // is a value assoc with a key
+    // already and if not we assign
+    // a new value to the key
+    scores.entry("Blue").or_insert(56);
+    scores.entry("Blu").or_insert(56);
 }
