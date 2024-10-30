@@ -2,3 +2,11 @@ fconcurrency/target
 oop/target
 Atomics/ch1/target
 */target/*
+advanced_features/target/.rustc_info.json
+functional_lang_features/target/.rustc_info.json
+functions/target/.rustc_info.json
+guessing_game/target/.rustc_info.json
+minigrep/target/.rustc_info.json
+programming_rust/references/src/main.rs
+refcell/target/.rustc_info.json
+variables/target/.rustc_info.json

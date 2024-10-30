@@ -115,5 +115,7 @@ fn main() {
     assert!(rrx == rry);
 
     ////! ﻿assert!(!std::ptr::eq(rx, ry));
+    /// 
+    /// References are never Null
 
 }
