@@ -15,5 +15,10 @@ fn main() -> std::io::Result<()> {
 
     println!("{:#?}", vec);
 
+    // Rust doesn't permit variables of type dyn Trait(Write in this case)
+    let mut buf = vec![];
+    // let writer: dyn Write = buf;
+    let writer: &mut dyn Write = &mut buf;
+
     Ok(())
 }
