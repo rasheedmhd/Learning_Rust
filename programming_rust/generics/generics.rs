@@ -1,3 +1,5 @@
+use std::fmt::Debug;
+use std::hash::Hash;
 use std::io::Write;
 
 fn main() {
@@ -11,4 +13,7 @@ fn main() {
         out.flush()
     }
     println!("Hello, World!");
+
+    // Multiple traits in generics
+    fn top_ten<T: Debug + Hash + Eq>(vals: &Vec<T>) {}
 }
