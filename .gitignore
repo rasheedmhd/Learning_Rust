@@ -1,4 +1,5 @@
 fconcurrency/target
 oop/target
 Atomics/ch1/target
+*/.DS_Store
 */target/*
